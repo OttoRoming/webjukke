@@ -1,0 +1,39 @@
+.macro-entry {
+    & .inner {
+        display: flex;
+        justify-content: space-between;
+
+        & > a {
+            color: inherit;
+        }
+    }
+}
+
+.page-directories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    height: 100%;
+
+    & > .ls {
+        height: 100%;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+}
+
+.metadata > * {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+{% for file in lsinfo.files %}
+    .page-directories:has(#entry-{{file.path|sha256}}:hover) #metadata-{{file.path|sha256}} {
+        display: grid;
+    }
+{% endfor %}
+
+

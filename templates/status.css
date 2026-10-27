@@ -1,0 +1,44 @@
+@keyframes progressFill {
+  from {
+      transform: scaleX(calc(
+          100% * var(--start-secs) / var(--total-secs)
+      ));
+  }
+
+  to {
+      transform: scaleX(100%);
+  }
+}
+
+.page-status {
+    background-color: var(--color-gray-5);
+    height: 100vh;
+
+    & > .progress-bar {
+        & > .progress {
+            height: 0.2em;
+            background-color: var(--color-accent);
+
+            --start-secs: calc(var(--elapsed-secs) + (var(--elapsed-nanos) / 1000000000));
+            --total-secs: calc(var(--duration-secs) + (var(--duration-nanos) / 1000000000));
+
+            transform-origin: left center;
+            animation-name: progressFill;
+            animation-duration: calc(1s * (var(--total-secs) - var(--start-secs)));
+            animation-play-state: paused;
+            animation-timing-function: linear;
+
+
+            &[data-status="Play"] {
+                animation-play-state: running;
+            }
+        }
+    }
+
+    & > .controls {
+        display: flex;
+        gap: 1em;
+
+        justify-content: center;
+    }
+}

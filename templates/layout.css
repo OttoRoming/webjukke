@@ -1,0 +1,22 @@
+.layout {
+    height: 100lvh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4em calc(100vh - 12em) 8em;
+
+    & > nav {
+        display: flex;
+        gap: 1em;
+        justify-content: center;
+        align-items: center;
+    }
+
+    & > main {
+        padding-inline: 1em;
+    }
+
+    & > .status {
+        width: 100%;  
+        border: none;
+    }
+}

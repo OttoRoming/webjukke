@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{super()}}
+    <style>{% include("status.css") %}</style>
+    <meta http-equiv="refresh" content="1">
+{% endblock %}
+
+{% block body %}
+    <main class="page-status"
+          style="
+             --elapsed-secs: {{status.elapsed.secs}};
+             --elapsed-nanos: {{status.elapsed.nanos}};
+             --duration-secs: {{status.duration.secs}};
+             --duration-nanos: {{status.duration.nanos}};
+          ">
+        <div>
+            <span class="state">
+                {% if status.state == "Play" %}
+                    Playing
+                {% elif status.state == "Pause" %}
+                    Paused
+                {% elif status.state == "Stop" %}
+                    Stopped
+                {% endif %}
+            </span>
+
+            {{status.elapsed.secs // 60}}:{{"{:02}".format(status.elapsed.secs % 60)}} / {{status.duration.secs // 60}}:{{"{:02}".format(status.duration.secs % 60)}}
+            {% if status.bitrate %}
+                ({{status.bitrate}}  kbps)
+            {% endif %}
+        </div>
+
+        {% if status.state == "Stop" %}
+        <div>
+            No Song
+        </div>
+        {% else %}
+        <div>
+            {{playing.metadata.title}}
+        </div>
+        <div>
+            {{playing.metadata.artist}} - {{playing.metadata.album}}
+        </div>
+        {% endif %}
+
+        <div class="progress-bar">
+            <div class="progress" data-status="{{status.state}}"></div>
+        </div>
+        <div class="controls">
+            <a href="/status/prev">previous</a>
+            {% if status.state == "Play" %}
+            <a href="/status/pause">pause</a>
+            {% elif status.state == "Pause" %}
+            <a href="/status/unpause">play</a>
+            {% elif status.state == "Stop" %}
+            <a href="/status/play">play</a>
+            {% endif %}
+            <a href="/status/next">next</a>
+        </div>
+    </main>
+{% endblock %}
+

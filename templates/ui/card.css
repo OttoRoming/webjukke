@@ -1,0 +1,5 @@
+.ui-card {
+    padding: 0.5em;
+    background-color: var(--color-black);
+    color: inherit;
+}

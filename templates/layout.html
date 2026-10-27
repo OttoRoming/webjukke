@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{super()}}
+    <style>{% include("layout.css") %}</style>
+{% endblock %}
+
+{% block body %}
+    <div class="layout">
+        <nav>
+            <a href="/">Queue</a>
+            <a href="/directories">Directories</a>
+        </nav>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <iframe class="status" src="/status">
+    </div>
+{% endblock %}

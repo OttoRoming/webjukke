@@ -1,0 +1,23 @@
+:root {
+	--color-accent: #ffff00;
+	--color-white: #ffffff;
+	--color-gray-1: #eceef2;
+	--color-gray-2: #c0c2c7;
+	--color-gray-3: #888b96;
+	--color-gray-4: #545861;
+	--color-gray-5: #353841;
+	--color-gray-6: #202225;
+	--color-black: #141417;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+
+    background-color: var(--color-gray-6);
+    color: var(--color-white);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}

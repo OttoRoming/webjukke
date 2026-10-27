@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% from "ui/card.html" import card %}
+
+{% block head %}
+    {{super()}}
+    <style>{% include("directories.css") %}</style>
+{% endblock %}
+
+
+{% macro entry(label, href, id, add) %}
+    <div 
+        {% if id %}
+        id="entry-{{id}}"
+        {% endif %}
+        class="macro-entry"
+        >
+        {% call card() %}
+            <div class="inner">
+                {% if href %}
+                    <a href="{{href}}">{{label}}</a>
+                {% else %}
+                    <span>{{label}}</span>
+                {% endif %}
+
+                {% if add %}
+                    <a href="{{add}}">+</a>
+                {% endif %}
+            </div>
+        {% endcall %}
+    </div> 
+{% endmacro %}
+
+{% block content %}
+    <main class="page-directories">
+        <div class="ls">
+            {% if path != "" %}
+                {{ entry("..", url_for("directories", path=path.rpartition("/")[0])) }} 
+            {% endif %}
+
+            {% for directory in lsinfo.directories %}
+                {{entry(directory.path.split("/")|last, "/directories/{}".format(directory.path))}} 
+            {% endfor %}
+
+            {% for file in lsinfo.files %}
+                {{entry(
+                    file.path.split("/")|last,
+                    id=file.path|sha256,
+                    add="/add/{}".format(file.path)
+                )}} 
+            {% endfor %}
+
+            {% for playlist in lsinfo.playlists %}
+                {{entry(playlist.name, "/playlist/{}".format(playlist.name))}} 
+            {% endfor %}
+        </div>
+        <div class="metadata">
+            {% for file in lsinfo.files %}
+                <div id="metadata-{{file.path|sha256}}">
+                    <h2>Info</h2><span></span>
+                    <strong>File:</strong><span>{{file.path}}</span>
+                    <strong>Filename:</strong><span>{{file.path.split("/")|last}}</span>
+                    <strong>Added:</strong><span>{{file.added}}</span>
+                    <strong>Duration:</strong><span>{{(file.duration/60)|int}}:{{"{:02}".format((file.duration%60)|int)}}</span>
+
+                    <h2>Tags</h2><span></span>
+                    {% for key, value in file.metadata.items() %}
+                        <strong>{{key}}:</strong><span>{{value}}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

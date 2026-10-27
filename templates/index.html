@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% from "ui/card.html" import card %}
+
+{% block head %}
+    {{super()}}
+    <style>
+        {% include("index.css") %}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="page-index">
+        <div class="queue">
+            {% for song in queue %}
+                {% call card() %}
+                    <span
+                        class="{% if song.id == playing.id %}playing{% endif %}"
+                    >
+                        {{song.metadata.title}}
+                    </span>
+                {% endcall %}
+            {% endfor %}
+        </div>
+        <div class="albumart">
+            <img src="/albumart">
+        </div>
+    </div>
+{% endblock %}

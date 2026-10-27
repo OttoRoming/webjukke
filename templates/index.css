@@ -1,0 +1,27 @@
+.page-index {
+    display: grid;
+    grid-template-columns: 1fr 20em;
+    gap: 1em;
+    height: 100%;
+
+    & > .albumart {
+        display: flex;
+        align-items: center;
+
+        & > img {
+            width: 100%;
+        }
+    }
+
+    & > .queue {
+        height: 100%;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+
+        & > .ui-card > .playing {
+            color: var(--color-accent);
+        }
+    }
+}
